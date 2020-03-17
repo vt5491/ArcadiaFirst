@@ -8,10 +8,6 @@
 (def width 10)
 (def height 10)
 (def pixel-unit 0.1)
-; (def frame (Resources/Load "frame"))
-      ; (let [left-scale (.. left-edge transform localScale)]
-      ;   (with-cmpt left-edge [tr Transform]
-      ;     (set! (.. tr localScale) (v3 (.x left-scale) (.y left-scale) (* (.z left-scale) 4))))))
 
 (defn init []
   (when-let [frm (object-named "frame")]
@@ -33,8 +29,6 @@
       (with-cmpt left-edge [tr Transform]
         (set! (.. tr localScale) (v3 (.x left-scale) (.y left-scale) (* (.z left-scale) 4))))
       (with-cmpt right-edge [tr Transform]
-        ; (set! (. tr position) (v3 3 2 0))
-        ; (let [left-pos (.. left-edge transform position)]
         (set! (. tr position) (v3 (* (.x left-pos) -1) (.y left-pos) (.z left-pos)))
         (set! (.. tr localScale) (v3 (.x left-scale) (.y left-scale) (* (.z left-scale) 4))))
       (with-cmpt bottom-edge [tr Transform]
@@ -45,8 +39,5 @@
         (.. tr (Rotate 0 90 0))
         (set! (. tr position) (v3 0 2 (.z left-pos)))
         (set! (.. tr localScale) (v3 (.x left-scale) (.y left-scale) (* (.z left-scale) 1.0)))))))
-         ; (set! (. tr position) (v3 (* (.x left-pos) -1) (.y left-pos) (.z left-pos))))))))
-         ; (let))))))
-
 
 (init)

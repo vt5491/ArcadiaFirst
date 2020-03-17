@@ -66,3 +66,16 @@
     r))
 
 (count (children (object-named "snake")))
+
+(let [snake (object-named "snake")]
+  (let [r (map-indexed
+           #(when (< %1 (- (count (children snake)) 1))
+              (let [cells (reverse (children snake))
+                    curr-cell %2
+                    next-cell (nth cells (+ %1 1))]
+                (log "current coords for cell %1="
+                     %1 ",curr-cell=" curr-cell "," (.. curr-cell transform position)
+                     ", next-cell=" next-cell "," (.. next-cell transform position))
+                (set! (.. curr-cell transform position) (.. next-cell transform position))))
+           (reverse (children snake)))]
+    (doall r)))

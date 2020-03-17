@@ -63,7 +63,7 @@
       (set! (.. rb useGravity) false))
     (with-cmpt cell [tr Transform]
       ; (set! (. tr position) (v3 0 4 0))
-      (init-snake-pos)
+      ; (init-snake-pos)
       (set! (. tr localScale) (v3 base/voxel-size base/voxel-size base/voxel-size)))
     (with-cmpt cell [bc BoxCollider]
       (set! (.. bc size) (v3 base/voxel-size base/voxel-size base/voxel-size))
@@ -119,13 +119,7 @@
 ;; Note: simply specifying the function name triggers "attempting to serialize something that is not serializable" errors
 ; (hook+ (object-named "snake") :update :snake-tick snake-update)
 (hook+ (object-named "snake") :update :snake-tick #'snake-update)
-; (hook- (object-named "snake") :update :snake-tick)
 
-; (defn snake-collision-handler [obj role-key collision]
-;   (log "snake collision detected, collision=" collision))
-        ;; and start moving horizontally
-
-; (defn snake-trigger-handler [obj role-key collider])
 (defn cell-trigger-enter [cell role-key collider]
   (log "cell trigger detected, collider=" collider ",role-key=" role-key)
   (let [snake-vel-state (state cell :snake-vel)
@@ -137,16 +131,7 @@
       (with-cmpt cell [tr Transform]
         (let [pos (.. tr position)]
           (set! (.. tr position) (v3 (- (.x pos) base/voxel-size) (+ (.y pos) (* base/voxel-size 1)) (.z pos))))))))
-      ;; and start moving horizontally
-      ; (update-state cell :snake-vel
-      ;               (fn [state]
-      ;                 (log "cell-trigger-enter: updating vx")
-      ;                 (assoc state :vx base/voxel-size, :vy 0, :vz 0))))))
 
-
-; (hook+ (object-named "snake") :on-collision-enter :snake-collision #'snake-collision-handler)
-; (hook- (object-named "snake") :on-collision-enter :snake-collision)
-; (hook+ (object-named "cell-0") :on-collision-enter :snake-collision #'snake-collision-handler)
 (hook+ (object-named "cell-0") :on-trigger-enter :snake-collision #'cell-trigger-enter)
 
 (defn cell-trigger-exit [obj role-key collider]
@@ -160,4 +145,3 @@
                                             (assoc state :vx 0, :vy base/voxel-size, :vz 0))))))
 
 (hook+ (object-named "cell-0") :on-trigger-exit :snake-collision #'cell-trigger-exit)
-; (hook- (object-named "cell-0") :on-trigger-exit :snake-collision)

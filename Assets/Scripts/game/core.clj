@@ -32,26 +32,11 @@
   ;; frame
   (frame/init)
   (log "base.voxel-size=" base/voxel-size))
-  ; (when-let [frm (object-named "frame")]
-  ;   (destroy-immediate frm))
-  ; (let [obj (instantiate frame)]
-  ;   (set! (.-name obj) "frame")))
 
+(init)
 
-(Init)
-
-; (.-name (first o))
-; (eval player)
-
-
-; (hook-
-;  player-go
-;  :update
-;  #(.. % transform (Rotate 0 1 0)))
 (defn log-name [obj role-key]
   (log (.name obj)))
-
-
 
 (hook+
  (object-named "Cube")
@@ -67,27 +52,10 @@
  :log-name)
 
 (defn cube-rotate [go role-key]
-  ; (break)
-  ; (let [rot (.. go transform rotation)]
-    ; (set! (.. go transform rotation) (+ rot 0.1))
-    ; (.. go transform (Rotate 0 1 0))))
-    ; (log "rot=" (.. go transform rotation))
-    ; (log "rot=" rot ",rot.y=" (.-y rot))
-    ; (log "rot.x=" (.-x (.. go transform rotation))))
-    ; (set! (.. go transform rotation) (qt (.-x rot) (+ (.-y rot) 0.1) (.-z rot) (.-w rot)))
-    ; (set! (.. go transform rotation) (qt 0 (+ (.-y (.. go transform rotation)) 0.1) 0 0))
-    ; (set! (.. go transform rotation) (qt 0 0 0 0))
-    ; (set! (.. go transform position) (v3 0.1 0 0))
   (let [pos (.position (.transform go))]
     (set! (.position (.transform go)) (v3 (+ (.x pos) 0.01) 0 0)))
   (let [rot (.rotation (.transform go))
         q (Quaternion. 0 10 0 0)]
-    ; (set! (.rotation (.transform go)) (Quaternion. (+ (.x rot) 0.1) 0 0 0))
-    ; (set! (.rotation (.transform go)) (v3 (+ (.x rot) 0.1) 0 0))
-    ; (set0! (.rotation (.transform go)) (qt 0 22.5 0 0))
-    ; (log "rot.y=" (.y rot))
-    ; (set! (.rotation (.transform go)) (qt 0 22.5 0 0))))
-    ; (set! (.rotation (.transform go)) q)))
     (.. go transform (Rotate 0 1.5 0))))
 
 (hook+
@@ -107,16 +75,6 @@
  :rotate
  #'game.core/cube-rotate)
 ;;
-; (hook-
-;  player-go
-;  :update
-;  :abc)
-
- ; (fn [go]
- ;   (log (.. go transform position))))
- ; player-update)
-  ; (defn rotate [obj role-key]
-  ;   (.. obj transform (Rotate 0 1 0))))
 
 (defn rotate [obj role-key]
   (.. obj transform (Rotate 0 0.5 0)))
