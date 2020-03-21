@@ -47,5 +47,9 @@
             (set! (.. tr localScale) (v3 tile-width tile-thickness tile-width))
             (set! (.. tr position) (v3 (idx-pos i) 0 (idx-pos (int (/ i base/board-width)))))))))))
 
+
+(defn toggle-mat []
+  (log "tiles.toggle-mat: entered"))
+  
 ;; optional manual evals
 (init)

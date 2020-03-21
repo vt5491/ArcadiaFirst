@@ -3,8 +3,9 @@
    arcadia.core
     arcadia.linear)
   (:require
-   [animBoard.base :as base])
-  (:import [UnityEngine Material Quaternion Resources Input KeyCode Vector3
+   [animBoard.base :as base]
+   [animBoard.tiles :as tiles])
+  (:import [UnityEngine Animator Material Quaternion Resources Input KeyCode Vector3
             Shader Time Transform MeshRenderer]))
 
 ; (def player-prefab (Resources/Load "player"))
@@ -19,6 +20,8 @@
 ; (def player-vz 0.1)
 ; (def player-speed 3.0)
 
+(defn abc []
+  (log "player.abc: entered"))
 ; (defrole player-role
 ;   :start {:speed 3.0}
 ;   :update #'animBoard.player/player-update)
@@ -50,14 +53,8 @@
 ; (player-init)
 
 (defn player-update [obj role-key]
-  ; (log "player-update: entered, role-key=" role-key ",
-; state=" (state obj), ",state@role-key=" (state obj role-key) ", speed=" (:speed (state obj role-key)))
   (let [pos (.position (.transform obj))
         speed (:speed (state obj role-key))]
-        ; x (.x pos)
-        ; y (.y pos)
-        ; z (.z pos)]
-    ; (log "player-update: pos=" pos)
     (cond
       (Input/GetKey KeyCode/A) (.. obj transform (Translate (v3* Vector3/left speed Time/deltaTime)))
       (Input/GetKey KeyCode/D) (.. obj transform (Translate (v3* Vector3/right speed Time/deltaTime)))
@@ -70,15 +67,27 @@
       ; Object.GetComponent<MeshRenderer> ().material = Material1;
       ; creature-material (Material. (Shader/Find "Specular"))
       ; Material yourMaterial = (Material)Resources.Load("MaterialName", typeof(Material));
-      (Input/GetKeyDown KeyCode/Keypad1)
+      (or (Input/GetKeyDown KeyCode/Keypad1) (Input/GetKeyDown KeyCode/Keypad2))
       (do
-        (log "1 key pressed")
-        (let [go (object-named "tile-0")
-              ; red-mat (Material. (Shader/Find "RedMat"))
-              red-mat (Resources/Load "RedMat")]
-          (with-cmpt go [rend MeshRenderer]
-            (set! (.. rend material) red-mat)))))))
-
+        (let [go (object-named "ybot@Idle_scratch_foot")]
+          (with-cmpt go [anim Animator]
+            (cond
+              (Input/GetKeyDown KeyCode/Keypad1)
+              (do
+                (log "1 key pressed")
+                (.. anim (Play "Idle"))
+                (let [go (object-named "tile-0")
+                      red-mat (Resources/Load "RedMat")]
+                  ; (.. go (SendMessage "ToggleMat"))
+                  ; (.. go (SendMessage "toggle-mat"))
+                  ; (.. obj (SendMessage "abc"))
+                  (tiles/toggle-mat)
+                  (with-cmpt go [rend MeshRenderer]
+                    (set! (.. rend material) red-mat))))
+              (Input/GetKeyDown KeyCode/Keypad2)
+              (do
+                (log "2 key pressed")
+                (.. anim (Play "Boxing"))))))))))
 
 ; (hook+ (object-named "player") :update :kbd player-update)
 ;;
@@ -96,3 +105,4 @@
 (defrole player-role
   :state {:speed 3.0}
   :update #'animBoard.player/player-update)
+  ; :toggleMat #'animBoard.tiles/toggle-mat)
