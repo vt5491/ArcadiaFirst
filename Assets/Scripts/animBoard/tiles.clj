@@ -22,17 +22,6 @@
 
 (defn init []
   (log "tiles.init2: base/board-width=" base/board-width)
-  ; (when-let [tile-array (objects-named #"tile-\d+")]
-  ;   ; (log "deleting " (count tiles) " old tiles=")
-  ;   (doall (map destroy-immediate tile-array)))
-  ; (.. UnityEngine (GameObject "tiles"))
-  ; (GameObject "tiles")
-  ; (UnityEngine/GameObject "tiles")
-  ; (UnityEngine/instantiate "tiles")
-  ; (instantiate "tiles")
-  ; (GameObject/Instantiate "tiles")
-  ; (GameObject/Instantiate)
-  ; (let [tiles (gobj (new UnityEngine.GameObject "tiles"))])
   (when-let [tiles (object-named "tiles")]
     (destroy-immediate tiles))
   (let [tiles (new UnityEngine.GameObject "tiles")]
@@ -50,6 +39,6 @@
 
 (defn toggle-mat []
   (log "tiles.toggle-mat: entered"))
-  
+
 ;; optional manual evals
 (init)
